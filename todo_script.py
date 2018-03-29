@@ -27,7 +27,12 @@ if __name__ == "__main__":
     cnx = cur = None
     try:
         cnx = mysql.connector.connect(**config)
-
+        cur = cnx.cursor()
+        query = "SELECT id,action,dueDate FROM todos;"
+        cur.execute(query)
+        
+        for id,action,dueDate in cur.fetchall():
+            print(action)
     except mysql.connector.Error as err:
         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
             print('Something is wrong with your user name or password')
@@ -35,14 +40,6 @@ if __name__ == "__main__":
             print("Database does not exist")
         else:
             print(err)
-    else:
-        cur = cnx.cursor()
-        query = "SELECT id,action,dueDate FROM todos;"
-        cur.execute(query)
-        
-        for row in cur.fetchall():
-            print(row['action'])
-
 
     finally:
         if cur:
