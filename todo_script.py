@@ -47,7 +47,7 @@ if __name__ == "__main__":
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames,delimiter=";")
             writer.writeheader()
             for id,action,dueDate in cur.fetchall():               
-                
+                print (action)
                 writer.writerow(
                         {
                             'id': id, 
