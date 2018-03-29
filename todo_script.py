@@ -27,7 +27,7 @@ if __name__ == "__main__":
     cnx = cur = None
     try:
         cnx = mysql.connector.connect(**config)
-        
+
     except mysql.connector.Error as err:
         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
             print('Something is wrong with your user name or password')
@@ -37,7 +37,8 @@ if __name__ == "__main__":
             print(err)
     else:
         cur = cnx.cursor()
-        cur.execute('show databases;')
+        query = "SELECT id,action,dueDate FROM todos;"
+        cur.execute(query)
         
         for row in cur.fetchall():
             print(row)
