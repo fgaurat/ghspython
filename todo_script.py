@@ -9,6 +9,7 @@ from pprint import pprint
 import logging
 import logging.config
 
+import csv
 
 
 
@@ -41,9 +42,19 @@ if __name__ == "__main__":
         cur = cnx.cursor()
         query = "SELECT id,action,dueDate FROM todos;"
         cur.execute(query)
-        
-        for id,action,dueDate in cur.fetchall():
-            print(action)
+        with open('todos.csv', 'w', newline='') as csvfile:
+            fieldnames = ['id', 'action','dueDate']
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames,delimiter=";")
+            writer.writeheader()
+            for id,action,dueDate in cur.fetchall():               
+                
+                writer.writerow(
+                        {
+                            'id': id, 
+                            'action': action,
+                            'dueDate':dueDate
+                        })
+
     except mysql.connector.Error as err:
         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
             print('Something is wrong with your user name or password')
