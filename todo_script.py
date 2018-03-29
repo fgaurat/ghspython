@@ -6,10 +6,13 @@ import configparser
 import argparse
 import sys
 from pprint import pprint
+import logging
 
 
 if __name__ == "__main__":
+    logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p',  level=logging.DEBUG)
     
+
     parser = argparse.ArgumentParser()
     parser.add_argument("config", help="préciser le fichier de configuration")
     args = parser.parse_args()    
@@ -26,6 +29,7 @@ if __name__ == "__main__":
 
     cnx = cur = None
     try:
+        logging.debug('db connection.')
         cnx = mysql.connector.connect(**config)
         cur = cnx.cursor()
         query = "SELECT id,action,dueDate FROM todos;"
