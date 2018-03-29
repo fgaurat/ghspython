@@ -41,7 +41,7 @@ if __name__ == "__main__":
         cur.execute(query)
         
         for row in cur.fetchall():
-            print(row)
+            print(row['action'])
 
 
     finally:
