@@ -7,18 +7,25 @@ import argparse
 import sys
 from pprint import pprint
 import logging
+import logging.config
+
+
 
 
 if __name__ == "__main__":
-    logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p',  level=logging.DEBUG)
+    # logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%d/%m/%Y %H:%M:%S',  level=logging.DEBUG)
     
+
 
     parser = argparse.ArgumentParser()
     parser.add_argument("config", help="préciser le fichier de configuration")
     args = parser.parse_args()    
     config_ini = configparser.ConfigParser()
     config_ini.read(args.config)
-        
+    
+    logging.config.fileConfig(config_ini['LOG']['logconfig'])    
+    logger = logging.getLogger('root')
+
     config = {
         'user': config_ini['DATABASE']['login'],
         'password': config_ini['DATABASE']['password'],
@@ -29,7 +36,7 @@ if __name__ == "__main__":
 
     cnx = cur = None
     try:
-        logging.debug('db connection.')
+        logger.debug('db connection.')
         cnx = mysql.connector.connect(**config)
         cur = cnx.cursor()
         query = "SELECT id,action,dueDate FROM todos;"
