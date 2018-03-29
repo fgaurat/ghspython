@@ -119,7 +119,7 @@ https://dev.mysql.com/doc/connector-python/en/connector-python-example-cursor-se
 
 
 
-
+https://docs.python.org/3/howto/logging.html#logging-basic-tutorial
 
 
 
